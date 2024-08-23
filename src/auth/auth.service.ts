@@ -37,7 +37,7 @@ export class AuthService {
         password: hashedPassword,
       });
 
-      const token = this.jwtService.sign({ id: user._id });
+      const token = this.jwtService.sign({ id: user._id, role: user.role });
 
       return { token };
     } catch (error) {
@@ -61,7 +61,7 @@ export class AuthService {
         throw new UnauthorizedException('Invalid password');
       }
 
-      const token = this.jwtService.sign({ id: user._id });
+      const token = this.jwtService.sign({ id: user._id, role: user.role });
 
       return { token };
     } catch (error) {

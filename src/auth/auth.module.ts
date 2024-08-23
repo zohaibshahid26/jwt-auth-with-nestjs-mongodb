@@ -12,21 +12,12 @@ import { RolesGuard } from './roles.guard';
   imports: [
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
     JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: 'secret', // Ensure this matches your environment variable or config
+        signOptions: { expiresIn: '1h' },
+      }),
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        const secret = 'secret';
-        //configService.get<string>('JWT_SECRET');
-        const expiresIn = '2d';
-        //configService.get<string | number>('JWT_EXPIRE');
-        console.log('JWT Secret:', process.env.JWT_SECRET); // Check if this logs the correct value
-        console.log('JWT Expire:', process.env.JWT_EXPIRE); // Check if this logs the correct value
-        return {
-          secret,
-          signOptions: {
-            expiresIn,
-          },
-        };
-      },
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
