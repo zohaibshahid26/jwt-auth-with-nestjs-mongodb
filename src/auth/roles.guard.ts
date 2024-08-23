@@ -21,8 +21,6 @@ export class RolesGuard implements CanActivate {
       return true;
     }
     const { user } = context.switchToHttp().getRequest();
-    console.log('User Roles:', user.role); // Add this for debugging
-    console.log('Required Roles:', requiredRoles); // Add this for debugging
     if (!user || !requiredRoles.some((role) => user.role?.includes(role))) {
       throw new ForbiddenException(
         'You do not have the necessary permissions to access this resource',
